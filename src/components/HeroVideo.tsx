@@ -99,6 +99,9 @@ export default function HeroVideo({ width, height }: Props) {
         muted
         loop={mode === "ambient"}
         playsInline
+        disablePictureInPicture
+        disableRemotePlayback
+        x-webkit-airplay="deny"
         preload="auto"
         onClick={toggle}
         onEnded={onEnded}

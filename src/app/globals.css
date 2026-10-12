@@ -456,6 +456,17 @@ html.js [data-reveal].is-in {
   cursor: pointer;
   animation: video-in 1.6s 0.05s var(--ease) both;
 }
+/* Safari draws its own big ▶ and a gray scrim when autoplay is blocked (e.g. Low Power Mode).
+   Hide every native control: the site's own "Tap for sound" button is the only control. */
+.hero-video::-webkit-media-controls,
+.hero-video::-webkit-media-controls-panel,
+.hero-video::-webkit-media-controls-overlay-play-button,
+.hero-video::-webkit-media-controls-start-playback-button,
+.hero-video::-webkit-media-controls-enclosure {
+  display: none !important;
+  -webkit-appearance: none;
+  opacity: 0 !important;
+}
 .sound-btn {
   position: absolute;
   left: calc(100% - 12px);
