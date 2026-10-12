@@ -147,9 +147,6 @@ export const SKILL_GROUPS: SkillGroup[] = [
     items: [
       el("Cu", "Cucumber", "bdd", "Selenium-Cucumber and Cypress-Cucumber frameworks in Jenkins CI/CD", ["comcast", "verizon", "5y", "hot"], "cucumber"),
       el("Gk", "Gherkin", "bdd", "Business-aligned feature files", ["5y", "hot"], "cucumber"),
-      el("Jn", "Jasmine", "bdd", "Listed in technical skills", [], "jasmine"),
-      el("Mo", "Mocha", "bdd", "Listed in technical skills", [], "mocha"),
-      el("Je", "Jest", "bdd", "Listed in technical skills", [], "jest"),
     ],
   },
   {
@@ -170,7 +167,6 @@ export const SKILL_GROUPS: SkillGroup[] = [
       el("Gt", "Git", "cicd", "Version control workflows", ["comcast", "verizon", "5y", "hot"], "git"),
       el("Mv", "Maven", "cicd", "Build tooling for Selenium/TestNG frameworks", ["5y", "hot"], "maven"),
       el("Dk", "Docker", "cicd", "Containerized environments", ["hot"], "docker"),
-      el("K8", "Kubernetes", "cicd", "Microservices and containerized environments", [], "kubernetes"),
       el("Aw", "AWS", "cicd", "EC2, S3, Lambda, RDS", ["verizon", "5y"], undefined, "#FF9900"),
       el("Gl", "GitLab", "cicd", "Listed in technical skills", [], "gitlab"),
     ],
@@ -180,7 +176,6 @@ export const SKILL_GROUPS: SkillGroup[] = [
     items: [
       el("Sp", "Splunk", "mon", "Log search and observability", ["verizon"], "splunk"),
       el("Kb", "Kibana", "mon", "Application logs traced to root cause during triage", ["comcast"], "kibana"),
-      el("Dd", "Datadog", "mon", "Listed in technical skills", [], "datadog"),
       el("Am", "Azure Monitor", "mon", "API performance and application health for Epic Will and RoyFi", ["5y"], undefined, "#0078D4"),
       el("Ai", "Application Insights", "mon", "Listed in technical skills", [], undefined, "#68217A"),
     ],

@@ -6,11 +6,10 @@ import * as si from "simple-icons";
 const SLUGS = {
   cypress: "siCypress", selenium: "siSelenium", appium: "siAppium", copilot: "siGithubcopilot",
   mcp: "siModelcontextprotocol", javascript: "siJavascript", typescript: "siTypescript", java: "siOpenjdk",
-  python: "siPython", postman: "siPostman", graphql: "siGraphql", bruno: "siBruno", cucumber: "siCucumber",
-  jasmine: "siJasmine", mocha: "siMocha", jest: "siJest", jmeter: "siApachejmeter", newrelic: "siNewrelic",
+  python: "siPython", postman: "siPostman", graphql: "siGraphql", bruno: "siBruno", cucumber: "siCucumber", jmeter: "siApachejmeter", newrelic: "siNewrelic",
   grafana: "siGrafana", jenkins: "siJenkins", githubactions: "siGithubactions", git: "siGit", docker: "siDocker",
-  kubernetes: "siKubernetes", maven: "siApachemaven", gitlab: "siGitlab", splunk: "siSplunk",
-  datadog: "siDatadog", kibana: "siKibana", anthropic: "siAnthropic",
+  maven: "siApachemaven", gitlab: "siGitlab", splunk: "siSplunk",
+  kibana: "siKibana", anthropic: "siAnthropic",
 };
 
 const lines = Object.entries(SLUGS).map(([key, name]) => {
