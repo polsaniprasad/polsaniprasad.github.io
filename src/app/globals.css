@@ -6,7 +6,7 @@
   --paper: #f4f2ee;
   --card: #ffffff;
   --ink: #0d0d0d;
-  --mute: #77756f;
+  --mute: #6b6964;
   --line: rgba(13, 13, 13, 0.1);
   --line-2: rgba(13, 13, 13, 0.18);
   --wash: rgba(13, 13, 13, 0.05);
@@ -1177,7 +1177,7 @@ html.js .ptable-grid.is-in .el-cell {
   font-family: var(--font-mono);
   font-size: 8px;
   text-transform: uppercase;
-  color: rgba(13, 13, 13, 0.32);
+  color: rgba(13, 13, 13, 0.5);
 }
 .el:hover,
 .el[data-active="true"] {

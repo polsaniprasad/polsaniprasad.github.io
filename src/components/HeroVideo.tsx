@@ -104,7 +104,8 @@ export default function HeroVideo({ width, height }: Props) {
         onEnded={onEnded}
         aria-label="Intro video: Prasad Rao’s self-introduction"
       >
-        {/* MP4 (H.264 + AAC) first: Safari plays VP9 WebM but often can't decode its Opus audio */}
+        {/* Phones get a 480px loop (~⅓ the size); sound always comes from hero-full.mp4 */}
+        <source src={asset("/media/hero-sm.mp4")} type="video/mp4" media="(max-width: 700px)" />
         <source src={asset("/media/hero.mp4")} type="video/mp4" />
         <source src={asset("/media/hero.webm")} type="video/webm" />
       </video>

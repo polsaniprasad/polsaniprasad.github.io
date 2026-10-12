@@ -8,7 +8,7 @@ Build the hero media from intro.mp4.
   3. Pushes the off-white background to pure white with `colorlevels`, so the
      video disappears into the page under `mix-blend-mode: multiply`.
   4. Crossfades the tail into the head so the clip loops without a visible cut.
-  5. Exports public/media/hero.mp4, hero.webm (silent-loop versions), hero-full.mp4 (the complete,
+  5. Exports public/media/hero.mp4, hero.webm, hero-sm.mp4 (silent loops), hero-full.mp4 (the complete,
      uncut intro with sound, played once when the visitor asks for sound), hero-poster.webp and
      portrait-bust.webp.
 
@@ -29,6 +29,7 @@ SRC = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "intro.mp4"
 OUT = ROOT / "public" / "media"
 
 OUT_WIDTH = 768        # final video width
+SMALL_WIDTH = 480      # phone-sized loop
 FADE = 0.8             # seconds of crossfade for the seamless loop
 SAMPLES = 24           # frames sampled for the bounding-box analysis
 ANALYSIS_W = 480       # analysis resolution (keeps numpy work tiny)
@@ -141,26 +142,26 @@ def main() -> None:
         f"[vb]trim=end={FADE},setpts=PTS-STARTPTS[head];"
         f"[main][head]xfade=transition=fade:duration={FADE}:offset={duration - 2 * FADE:.3f}[v]"
     )
-    agraph = (
-        f";[0:a]asplit[aa][ab];"
-        f"[aa]atrim=start={FADE},asetpts=PTS-STARTPTS[amain];"
-        f"[ab]atrim=end={FADE},asetpts=PTS-STARTPTS[ahead];"
-        f"[amain][ahead]acrossfade=d={FADE}:c1=tri:c2=tri[a]"
-    ) if has_audio else ""
-    graph = vgraph + agraph
-    maps = ["-map", "[v]"] + (["-map", "[a]"] if has_audio else [])
+    # The loop only ever plays muted (sound comes from hero-full.mp4), so it ships without audio.
+    graph = vgraph
+    maps = ["-map", "[v]"]
 
     print("• encoding hero.mp4")
     run(["ffmpeg", "-v", "error", "-y", "-i", str(SRC), "-filter_complex", graph, *maps,
          "-t", f"{loop_len:.3f}", "-c:v", "libx264", "-preset", "slow", "-crf", "24", "-profile:v", "high",
-         "-pix_fmt", "yuv420p", "-movflags", "+faststart",
-         *(["-c:a", "aac", "-b:a", "96k"] if has_audio else ["-an"]), str(OUT / "hero.mp4")])
+         "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-an", str(OUT / "hero.mp4")])
+
+    # Phones show the video at ~260-430 CSS px wide, so a 480px loop is plenty there.
+    print("• encoding hero-sm.mp4")
+    run(["ffmpeg", "-v", "error", "-y", "-i", str(OUT / "hero.mp4"), "-vf", f"scale={SMALL_WIDTH}:-2:flags=lanczos",
+         "-c:v", "libx264", "-preset", "slow", "-crf", "26", "-profile:v", "high",
+         "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-an", str(OUT / "hero-sm.mp4")])
 
     print("• encoding hero.webm")
     run(["ffmpeg", "-v", "error", "-y", "-i", str(SRC), "-filter_complex", graph, *maps,
          "-t", f"{loop_len:.3f}", "-c:v", "libvpx-vp9", "-b:v", "0", "-crf", "40", "-row-mt", "1",
          "-deadline", "good", "-cpu-used", "2",
-         *(["-c:a", "libopus", "-b:a", "80k"] if has_audio else ["-an"]), str(OUT / "hero.webm")])
+         "-an", str(OUT / "hero.webm")])
 
     # The loop trims the first FADE seconds into a crossfade, which would clip the first word.
     # For listening, ship the complete clip with the same crop and grade, played once.

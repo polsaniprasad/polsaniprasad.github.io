@@ -12,9 +12,30 @@ import Achievements from "@/components/Achievements";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
+// schema.org Person: lets search engines show the name, title and LinkedIn together.
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: PROFILE.name,
+  jobTitle: PROFILE.headline,
+  url: `${SITE}/`,
+  email: `mailto:${PROFILE.email}`,
+  sameAs: [PROFILE.linkedin],
+  worksFor: { "@type": "Organization", name: PROFILE.currentCompany },
+  address: { "@type": "PostalAddress", addressLocality: "Philadelphia", addressRegion: "PA", addressCountry: "US" },
+  alumniOf: { "@type": "CollegeOrUniversity", name: "JNTU" },
+  knowsAbout: ["Playwright", "Cypress", "Selenium WebDriver", "Test automation", "API testing", "AI-assisted testing"],
+};
+
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c") }}
+      />
       <a href="#about" className="skip-link">
         Skip to content
       </a>
