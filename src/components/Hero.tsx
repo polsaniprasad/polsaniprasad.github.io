@@ -16,27 +16,25 @@ export default function Hero() {
       <div className="container hero-grid">
         <div className="hero-copy">
           <p className="hero-eyebrow rise" style={{ "--d": "120ms" } as React.CSSProperties}>
-            <span className="dot" aria-hidden="true" /> {PROFILE.name} · {PROFILE.currentTitle} at{" "}
-            {PROFILE.currentCompany}
+            <span className="dot" aria-hidden="true" /> {PROFILE.name} · {PROFILE.currentCompany},{" "}
+            {PROFILE.location}
           </p>
-          <h1 id="hero-title" className="hero-title">
+          <h1 id="hero-title" className="hero-title hero-title-xl">
             <span className="sr-only">{PROFILE.name} — </span>
             <span className="line">
               <span className="rise" style={{ "--d": "200ms" } as React.CSSProperties}>
-                Senior SDET &amp;
+                QA
               </span>
             </span>
             <span className="line">
-              <span className="rise" style={{ "--d": "300ms" } as React.CSSProperties}>
-                <em>QA Automation</em>
-              </span>
-            </span>
-            <span className="line">
-              <span className="rise" style={{ "--d": "400ms" } as React.CSSProperties}>
-                Engineer
+              <span className="rise" style={{ "--d": "320ms" } as React.CSSProperties}>
+                <em>Engineer</em>
               </span>
             </span>
           </h1>
+          <p className="hero-tags rise" style={{ "--d": "440ms" } as React.CSSProperties}>
+            Playwright · Cypress · Selenium · AI-assisted testing
+          </p>
         </div>
 
         <div className="hero-side rise" style={{ "--d": "520ms" } as React.CSSProperties}>

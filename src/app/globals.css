@@ -555,6 +555,20 @@ html.js [data-reveal].is-in {
   line-height: 0.98;
   letter-spacing: -0.05em;
 }
+.hero-title-xl {
+  font-size: clamp(3.4rem, 7.4vw, 7.6rem);
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+}
+.hero-title-xl em {
+  letter-spacing: -0.03em;
+}
+.hero-tags {
+  margin-top: 18px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--mute);
+}
 .hero-title .line {
   display: block;
   overflow: hidden;
@@ -623,6 +637,9 @@ html.js [data-reveal].is-in {
   }
   .hero-title {
     font-size: clamp(2.4rem, 10vw, 4.4rem);
+  }
+  .hero-title-xl {
+    font-size: clamp(3.6rem, 19vw, 7rem);
   }
 }
 @media (max-width: 420px) {
@@ -2085,6 +2102,9 @@ html.js .ptable-grid.is-in .el-cell {
 .ink-list {
   border-top: 1px solid var(--line-2);
 }
+.ink-item {
+  border-bottom: 1px solid var(--line-2);
+}
 .ink-row {
   position: relative;
   isolation: isolate;
@@ -2097,7 +2117,6 @@ html.js .ptable-grid.is-in .el-cell {
   column-gap: 14px;
   row-gap: 4px;
   padding: 22px 12px;
-  border-bottom: 1px solid var(--line-2);
   overflow: hidden;
   transition: color 0.45s var(--ease);
 }
@@ -2111,10 +2130,15 @@ html.js .ptable-grid.is-in .el-cell {
   transform-origin: 100% 50%;
   transition: transform 0.75s var(--ease-io);
 }
-.ink-row:hover {
+a.ink-row:focus-visible {
+  outline-offset: -2px;
+}
+.ink-row:hover,
+a.ink-row:focus-visible {
   color: var(--paper);
 }
-.ink-row:hover::before {
+.ink-row:hover::before,
+a.ink-row:focus-visible::before {
   transform: scaleX(1);
   transform-origin: 0 50%;
 }

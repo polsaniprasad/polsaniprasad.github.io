@@ -141,7 +141,7 @@ export default function Lanyard(props: Props) {
             <span>{props.name.toUpperCase()} · QA AUTOMATION · {props.name.toUpperCase()} · QA AUTOMATION ·</span>
           </span>
           <span className="strap strap-r">
-            <span>SDET · PLAYWRIGHT · CYPRESS · SELENIUM · SDET · PLAYWRIGHT · CYPRESS ·</span>
+            <span>QA ENGINEER · PLAYWRIGHT · CYPRESS · SELENIUM · QA ENGINEER · PLAYWRIGHT ·</span>
           </span>
           <span className="lanyard-ring" />
           <span className="lanyard-clip" />

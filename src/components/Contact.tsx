@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 
-type Props = { email: string; phone: string; phoneHref: string; resume: string };
+type Props = { email: string; phone: string; phoneHref: string; resume: string; linkedin: string };
 
 const HEADLINE: { word: string; accent?: boolean }[] = [
   { word: "Let’s" },
@@ -11,7 +11,7 @@ const HEADLINE: { word: string; accent?: boolean }[] = [
   { word: "together.", accent: true },
 ];
 
-export default function Contact({ email, phone, phoneHref, resume }: Props) {
+export default function Contact({ email, phone, phoneHref, resume, linkedin }: Props) {
   const [copied, setCopied] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -75,6 +75,9 @@ export default function Contact({ email, phone, phoneHref, resume }: Props) {
           <div className="contact-links">
             <a href={`mailto:${email}`} className="link-arrow">
               Write an email <span aria-hidden="true">↗</span>
+            </a>
+            <a href={linkedin} className="link-arrow" target="_blank" rel="noopener noreferrer">
+              LinkedIn <span aria-hidden="true">↗</span>
             </a>
             <a href={phoneHref} className="link-arrow">
               {phone} <span aria-hidden="true">↗</span>

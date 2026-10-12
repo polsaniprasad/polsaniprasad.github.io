@@ -29,7 +29,13 @@ export default function Home() {
         <Certifications />
         <Timeline />
         <Achievements items={ACHIEVEMENTS} />
-        <Contact email={PROFILE.email} phone={PROFILE.phone} phoneHref={PROFILE.phoneHref} resume={PROFILE.resume} />
+        <Contact
+          email={PROFILE.email}
+          phone={PROFILE.phone}
+          phoneHref={PROFILE.phoneHref}
+          resume={PROFILE.resume}
+          linkedin={PROFILE.linkedin}
+        />
       </main>
       <Footer />
     </>

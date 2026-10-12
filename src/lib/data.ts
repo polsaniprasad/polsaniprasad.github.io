@@ -10,7 +10,7 @@ import { asset } from "./asset";
 export const PROFILE = {
   name: "Prasad Rao",
   firstName: "Prasad",
-  headline: "Senior SDET & QA Automation Engineer",
+  headline: "QA Engineer",
   currentTitle: "QA Engineer",
   currentCompany: "Comcast",
   currentSince: "April 2026",
@@ -18,6 +18,7 @@ export const PROFILE = {
   email: "polsaniprasadrao22@gmail.com",
   phone: "+1 (214) 836-0833",
   phoneHref: "tel:+12148360833",
+  linkedin: "https://www.linkedin.com/in/chandra-p-b3237b229/",
   resume: asset("/resume.pdf"),
   careerStart: "2016",
   intro:
@@ -272,14 +273,47 @@ export const PROJECTS: Project[] = [
 
 /* ─────────────────────────── Certifications ─────────────────────────── */
 
-export const CERTIFICATIONS = [
-  { title: "ISTQB Certified Tester — Foundation Level", tag: "CTFL", issuer: "ISTQB" },
-  { title: "LambdaTest Certified Professional — Test Automation", tag: "Automation", issuer: "LambdaTest" },
-  { title: "Claude Code 101", tag: "AI", issuer: "Anthropic" },
-  { title: "Claude Code in Action", tag: "AI", issuer: "Anthropic" },
-  { title: "Introduction to Model Context Protocol (MCP)", tag: "Oct 2026", issuer: "Anthropic · Claude Academy" },
+export type Certification = {
+  title: string;
+  tag: string;
+  issuer: string;
+  /** Public verification page; rows without one are not links. */
+  href?: string;
+  /** Shown on the back of the ID card. */
+  onCard?: boolean;
+};
+
+export const CERTIFICATIONS: Certification[] = [
+  {
+    title: "LambdaTest Certified Professional — Test Automation",
+    tag: "Playwright 102",
+    issuer: "TestMu AI (formerly LambdaTest)",
+    href: "https://www.testmuai.com/certifications/testmuai-certified/P102-VC88Q9.png",
+    onCard: true,
+  },
+  {
+    title: "Claude Code 101",
+    tag: "Oct 2026",
+    issuer: "Anthropic · Claude Academy",
+    href: "https://academy.claude.com/verify/923d43a9748f0084157f670341c54ac4",
+  },
+  { title: "ISTQB Certified Tester — Foundation Level", tag: "CTFL", issuer: "ISTQB", onCard: true },
+  {
+    title: "Claude Code in Action",
+    tag: "Oct 2026",
+    issuer: "Anthropic · Claude Academy",
+    href: "https://academy.claude.com/verify/7df2abc347d89ce6cb3fd3539364e0cd",
+    onCard: true,
+  },
+  {
+    title: "Introduction to Model Context Protocol (MCP)",
+    tag: "Oct 2026",
+    issuer: "Anthropic · Claude Academy",
+    href: "https://academy.claude.com/verify/3f89806f348e5f5559a96b7d765ab092",
+    onCard: true,
+  },
   { title: "Playwright & Agentic AI: Building Autonomous Test Frameworks", tag: "AI", issuer: "" },
-] as const;
+];
 
 /* ───────────────────────────── Experience ───────────────────────────── */
 

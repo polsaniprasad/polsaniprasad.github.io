@@ -19,6 +19,9 @@ export default function Footer() {
         </nav>
         <div className="footer-meta">
           <span>© {year}</span>
+          <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="to-top">
+            LinkedIn ↗
+          </a>
           <a href="#top" className="to-top">
             Back to top
             <svg viewBox="0 0 16 16" aria-hidden="true">
