@@ -7,6 +7,8 @@ import Lenis from "lenis";
 export default function SmoothScroll() {
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Start at the top on every visit (see the inline script in layout.tsx).
+    window.scrollTo(0, 0);
     const lenis = reduce ? null : new Lenis({ autoRaf: true, lerp: 0.1, anchors: { offset: -64 } });
 
     const io = new IntersectionObserver(

@@ -50,8 +50,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${sans.variable} ${serif.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
-        {/* Reveal animations only hide content once JS is known to be running. */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        {/*
+          1. Reveal animations only hide content once JS is known to be running.
+          2. Always open on the hero: stop the browser restoring an old scroll position, and
+             drop any #section from the address before the browser jumps to it.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "document.documentElement.classList.add('js');" +
+              "if('scrollRestoration' in history)history.scrollRestoration='manual';" +
+              "if(location.hash)history.replaceState(null,'',location.pathname+location.search);",
+          }}
+        />
       </head>
       <body>{children}</body>
     </html>
