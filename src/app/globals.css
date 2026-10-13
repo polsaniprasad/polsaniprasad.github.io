@@ -467,6 +467,24 @@ html.js [data-reveal].is-in {
   -webkit-appearance: none;
   opacity: 0 !important;
 }
+/* Captions for the voiced intro (a sibling of the video, so the wrapper stays un-isolated) */
+.hero-caption {
+  position: absolute;
+  left: 50%;
+  bottom: 9%;
+  width: max-content;
+  max-width: min(calc(100vw - 32px), 26rem);
+  translate: -50% 0;
+  padding: 7px 14px;
+  border-radius: 10px;
+  background: rgba(13, 13, 13, 0.84);
+  color: var(--paper);
+  font-size: 15px;
+  line-height: 1.4;
+  text-align: center;
+  text-wrap: balance;
+  pointer-events: none;
+}
 .sound-btn {
   position: absolute;
   left: calc(100% - 12px);
@@ -2871,7 +2889,8 @@ html.js .bouncy.is-in .bl {
     transition-duration: 0.001ms !important;
     transition-delay: 0ms !important;
   }
-  html.js [data-reveal] {
+  html.js [data-reveal],
+  .tl-card {
     opacity: 1;
     transform: none;
   }

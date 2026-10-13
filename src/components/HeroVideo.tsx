@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { asset } from "@/lib/asset";
 
-type Props = { width: number; height: number };
+type Props = { width: number; height: number; transcript: string };
 
 /**
  * ambient — silent, seamless background loop (on load)
@@ -13,15 +13,20 @@ type Props = { width: number; height: number };
 type Mode = "ambient" | "voice" | "stopped";
 
 const FULL_SRC = asset("/media/hero-full.mp4");
+const CAPTIONS_SRC = asset("/media/hero-full.vtt");
 
 /**
  * Muted loop on load. The button (or a click on the video) plays the complete intro once with
  * sound, from the start; click again to pause. Pauses itself while less than 35% is on screen.
+ * Captions come from a hidden <track> and are drawn by the page: the browser's own caption
+ * box would be blended into the background along with the video.
  */
-export default function HeroVideo({ width, height }: Props) {
+export default function HeroVideo({ width, height, transcript }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const trackRef = useRef<HTMLTrackElement>(null);
   const [mode, setModeState] = useState<Mode>("ambient");
   const [ended, setEnded] = useState(false);
+  const [caption, setCaption] = useState("");
   const modeRef = useRef<Mode>("ambient");
   const visibleRef = useRef(true);
 
@@ -47,6 +52,15 @@ export default function HeroVideo({ width, height }: Props) {
     );
     io.observe(video);
     return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const track = trackRef.current?.track;
+    if (!track) return;
+    track.mode = "hidden"; // fire cue events without the browser rendering them
+    const onCue = () => setCaption((track.activeCues?.[0] as VTTCue | undefined)?.text ?? "");
+    track.addEventListener("cuechange", onCue);
+    return () => track.removeEventListener("cuechange", onCue);
   }, []);
 
   const playVoice = (video: HTMLVideoElement) => {
@@ -80,10 +94,13 @@ export default function HeroVideo({ width, height }: Props) {
   const onEnded = () => {
     if (modeRef.current !== "voice") return;
     setEnded(true);
+    setCaption("");
     setMode("stopped");
   };
 
   const playing = mode === "voice";
+  // Cue times only match the uncut clip, so the silent loop never shows them.
+  const showCaption = caption && (mode === "voice" || (mode === "stopped" && !ended));
   const label =
     mode === "ambient" ? "Tap for sound" : playing ? "Pause" : ended ? "Replay intro" : "Resume";
 
@@ -106,12 +123,23 @@ export default function HeroVideo({ width, height }: Props) {
         onClick={toggle}
         onEnded={onEnded}
         aria-label="Intro video: Prasad Rao’s self-introduction"
+        aria-describedby="hero-transcript"
       >
         {/* Phones get a 480px loop (~⅓ the size); sound always comes from hero-full.mp4 */}
         <source src={asset("/media/hero-sm.mp4")} type="video/mp4" media="(max-width: 700px)" />
         <source src={asset("/media/hero.mp4")} type="video/mp4" />
         <source src={asset("/media/hero.webm")} type="video/webm" />
+        <track ref={trackRef} kind="captions" src={CAPTIONS_SRC} srcLang="en" label="English" />
       </video>
+
+      {showCaption ? (
+        <p className="hero-caption" aria-hidden="true">
+          {caption}
+        </p>
+      ) : null}
+      <p id="hero-transcript" className="sr-only">
+        Transcript: {transcript}
+      </p>
 
       <button
         type="button"

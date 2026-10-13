@@ -100,7 +100,8 @@ export default function Achievements({ items }: { items: readonly Item[] }) {
               <p className="stat-index">
                 {String(i + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
               </p>
-              <p className="stat-num" aria-label={`${a.prefix}${a.value}${a.suffix}`}>
+              <p className="stat-num">
+                <span className="sr-only">{`${a.prefix}${a.value}${a.suffix}`}</span>
                 <span aria-hidden="true">
                   {a.prefix}
                   <span data-count={a.value}>{a.value}</span>

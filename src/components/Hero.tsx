@@ -10,7 +10,7 @@ export default function Hero() {
       </p>
 
       <div className="hero-stage">
-        <HeroVideo width={heroMeta.width} height={heroMeta.height} />
+        <HeroVideo width={heroMeta.width} height={heroMeta.height} transcript={PROFILE.introTranscript} />
       </div>
 
       <div className="container hero-grid">

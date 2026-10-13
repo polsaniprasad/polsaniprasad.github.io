@@ -28,6 +28,9 @@ export const PROFILE = {
     "At Comcast I built AI agents for QA using GitHub Copilot integrated with the client’s MCP server: one reads Cucumber and Playwright test reports to pinpoint why each test failed and recommend the fix, another generates test scenarios from user stories and acceptance criteria.",
     "Hands-on with media and streaming applications — video playback pipelines, adaptive bitrate (ABR) streaming, HLS/DASH stream integrity, OTT workflows, CDN content delivery and DRM license validation.",
   ],
+  /** What the hero video says; the timed version is public/media/hero-full.vtt. */
+  introTranscript:
+    "Hi, I’m Prasad Rao. I’m a senior SDET and QA automation engineer. I architect enterprise test frameworks, validate streaming media pipelines, and build AI agents for intelligent quality engineering.",
   education: {
     degree: "B.Tech – Electrical & Electronics Engineering",
     short: "B.Tech EEE",
