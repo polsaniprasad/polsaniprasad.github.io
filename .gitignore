@@ -9,3 +9,7 @@ node_modules
 out
 playwright-report
 test-results
+lighthouse-report
+.lighthouseci
+# source footage for scripts/build-hero-assets.py; kept locally, not in the repo
+/intro.mp4

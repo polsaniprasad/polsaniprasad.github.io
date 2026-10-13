@@ -1,5 +1,5 @@
 /**
- * Single source of content for the site. Everything here is taken from resume.pdf.
+ * Single source of content for the site. Everything here is taken from public/resume.pdf.
  * When the résumé changes, update this file — components never hard-code copy.
  */
 import type { IconKey } from "./icons";
@@ -159,7 +159,6 @@ export const SKILL_GROUPS: SkillGroup[] = [
       el("Jm", "JMeter", "perf", "Load, stress and endurance tests for checkout, booking and payment APIs", ["verizon", "5y", "hot"], "jmeter"),
       el("Al", "Azure Load Testing", "perf", "Cloud-based performance validation on AWS and Azure", ["5y"], undefined, "#0078D4"),
       el("Nr", "New Relic APM", "perf", "Transaction traces and error rates correlated with test runs", ["verizon", "5y"], "newrelic"),
-      el("Gf", "Grafana", "perf", "SLA and throughput validation", [], "grafana"),
     ],
   },
   {
@@ -172,7 +171,6 @@ export const SKILL_GROUPS: SkillGroup[] = [
       el("Mv", "Maven", "cicd", "Build tooling for Selenium/TestNG frameworks", ["5y", "hot"], "maven"),
       el("Dk", "Docker", "cicd", "Containerized environments", ["hot"], "docker"),
       el("Aw", "AWS", "cicd", "EC2, S3, Lambda, RDS", ["verizon", "5y"], undefined, "#FF9900"),
-      el("Gl", "GitLab", "cicd", "Listed in technical skills", [], "gitlab"),
     ],
   },
   {
@@ -181,7 +179,6 @@ export const SKILL_GROUPS: SkillGroup[] = [
       el("Sp", "Splunk", "mon", "Log search and observability", ["verizon"], "splunk"),
       el("Kb", "Kibana", "mon", "Application logs traced to root cause during triage", ["comcast"], "kibana"),
       el("Am", "Azure Monitor", "mon", "API performance and application health for Epic Will and RoyFi", ["5y"], undefined, "#0078D4"),
-      el("Ai", "Application Insights", "mon", "Listed in technical skills", [], undefined, "#68217A"),
     ],
   },
 ];
@@ -274,6 +271,22 @@ export const PROJECTS: Project[] = [
   },
 ];
 
+/** Shown under the work accordion: how this site itself is tested (see .github/workflows/ci.yml). */
+export const SITE_QA = {
+  title: "This site, tested like production",
+  description:
+    "The page you are reading ships the way I’d want any product to: every push runs a Playwright suite on desktop Chrome, Android and iPhone, an axe WCAG 2.1 AA scan and Lighthouse score budgets in GitHub Actions — and only the build that passed all of it goes live.",
+  features: [
+    "Playwright E2E on desktop Chrome, Android & iPhone",
+    "Tests run against the exact static build that deploys",
+    "axe-core WCAG 2.1 AA scan on every push",
+    "Lighthouse minimums: 90 performance, 95 a11y / SEO",
+    "Captioned intro video, keyboard & screen-reader checks",
+    "Failing checks block the GitHub Pages deploy",
+  ],
+  stack: ["Playwright", "TypeScript", "axe-core", "Lighthouse CI", "GitHub Actions", "Next.js"],
+};
+
 /* ─────────────────────────── Certifications ─────────────────────────── */
 
 export type Certification = {
@@ -315,7 +328,12 @@ export const CERTIFICATIONS: Certification[] = [
     href: "https://academy.claude.com/verify/3f89806f348e5f5559a96b7d765ab092",
     onCard: true,
   },
-  { title: "Playwright & Agentic AI: Building Autonomous Test Frameworks", tag: "AI", issuer: "" },
+  {
+    title: "Playwright & Agentic AI: Building Autonomous Test Frameworks",
+    tag: "AI",
+    issuer: "Test Automation University · Applitools",
+    href: "https://testautomationu.applitools.com/certificate/?id=502400d4",
+  },
 ];
 
 /* ───────────────────────────── Experience ───────────────────────────── */

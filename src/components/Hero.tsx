@@ -33,7 +33,7 @@ export default function Hero() {
             </span>
           </h1>
           <p className="hero-tags rise" style={{ "--d": "440ms" } as React.CSSProperties}>
-            Playwright · Cypress · Selenium · AI-assisted testing
+            SDET · Playwright · Cypress · Selenium · AI-assisted testing
           </p>
         </div>
 

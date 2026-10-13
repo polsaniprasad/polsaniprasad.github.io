@@ -25,6 +25,23 @@ function glow(hex: string | null) {
   return r + g + b < 120 ? "rgba(13,13,13,0.16)" : `rgba(${r},${g},${b},0.28)`;
 }
 
+const luminance = (r: number, g: number, b: number) => {
+  const lin = (c: number) => ((c /= 255) <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+  return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+};
+const PAPER_L = luminance(0xf4, 0xf2, 0xee);
+
+/** Brand colour darkened just enough to read as text on the paper background (WCAG AA, 4.5:1). */
+function textColor(hex: string | null) {
+  if (!hex) return "#0d0d0d";
+  const v = parseInt(hex.slice(1), 16);
+  let [r, g, b] = [(v >> 16) & 255, (v >> 8) & 255, v & 255];
+  while ((PAPER_L + 0.05) / (luminance(r, g, b) + 0.05) < 4.6) [r, g, b] = [r * 0.94, g * 0.94, b * 0.94];
+  return `rgb(${Math.round(r)} ${Math.round(g)} ${Math.round(b)})`;
+}
+
+const describe = (t: Tile) => `${t.name}. ${t.note}. Used at ${t.usedAt.join(", ")}.`;
+
 function Mark({ tile, size }: { tile: Tile; size: "sm" | "lg" }) {
   if (tile.icon) {
     return (
@@ -43,6 +60,8 @@ function Mark({ tile, size }: { tile: Tile; size: "sm" | "lg" }) {
 export default function SkillsTable({ tiles, categories }: Props) {
   const [filter, setFilter] = useState<string>("all");
   const [active, setActive] = useState<Tile>(tiles[0]);
+  // Spoken only when a tile is picked (click / Enter), not on every hover or Tab stop.
+  const [announcement, setAnnouncement] = useState("");
   const label = (id: string) => categories.find((c) => c.id === id);
   const count = filter === "all" ? tiles.length : tiles.filter((t) => t.category === filter).length;
 
@@ -82,7 +101,10 @@ export default function SkillsTable({ tiles, categories }: Props) {
                   style={{ "--brand": t.color ?? "#0d0d0d", "--glow": glow(t.color) } as React.CSSProperties}
                   onPointerEnter={() => setActive(t)}
                   onFocus={() => setActive(t)}
-                  onClick={() => setActive(t)}
+                  onClick={() => {
+                    setActive(t);
+                    setAnnouncement(describe(t));
+                  }}
                   aria-label={`${t.name}, ${label(t.category)?.label}`}
                   tabIndex={dim ? -1 : 0}
                 >
@@ -97,11 +119,20 @@ export default function SkillsTable({ tiles, categories }: Props) {
           })}
         </ul>
 
-        <aside className="inspector" aria-live="polite" aria-label="Skill details">
+        <p className="sr-only" aria-live="polite">
+          {announcement}
+        </p>
+        <aside className="inspector" aria-label="Skill details">
           <div
             className="inspector-card"
             key={active.n}
-            style={{ "--brand": active.color ?? "#0d0d0d", "--glow": glow(active.color) } as React.CSSProperties}
+            style={
+              {
+                "--brand": active.color ?? "#0d0d0d",
+                "--brand-text": textColor(active.color),
+                "--glow": glow(active.color),
+              } as React.CSSProperties
+            }
           >
             <div className="inspector-top">
               <div className="inspector-logo">
@@ -117,15 +148,11 @@ export default function SkillsTable({ tiles, categories }: Props) {
             <p className="inspector-note">{active.note}</p>
             <div className="inspector-used">
               <p className="inspector-k">Used at</p>
-              {active.usedAt.length ? (
-                <ul>
-                  {active.usedAt.map((o) => (
-                    <li key={o}>{o}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="inspector-none">Listed in the résumé’s technical skills</p>
-              )}
+              <ul>
+                {active.usedAt.map((o) => (
+                  <li key={o}>{o}</li>
+                ))}
+              </ul>
             </div>
           </div>
         </aside>

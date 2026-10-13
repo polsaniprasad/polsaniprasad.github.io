@@ -146,7 +146,7 @@ export default function HeroVideo({ width, height, transcript }: Props) {
         className="sound-btn"
         onClick={toggle}
         aria-pressed={playing}
-        aria-label={playing ? "Pause intro" : ended ? "Replay intro with sound" : "Play intro with sound"}
+        aria-label={`${label} (intro video)`}
       >
         <span className="sound-icon" data-state={playing ? "on" : "off"} data-idle={mode === "ambient"} aria-hidden="true">
           <svg viewBox="0 0 20 20" className="i-play">

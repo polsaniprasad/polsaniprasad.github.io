@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { PROFILE, PROJECTS, SKILL_GROUPS } from "../src/lib/data";
+import { PROFILE, PROJECTS, SITE_QA, SKILL_GROUPS } from "../src/lib/data";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
@@ -59,7 +59,7 @@ test("work accordion keeps exactly one panel open", async ({ page }) => {
 
 test("ID card flips from the keyboard", async ({ page, isMobile }) => {
   test.skip(isMobile, "keyboard interaction");
-  const card = page.getByRole("button", { name: /Developer ID card/ });
+  const card = page.getByRole("button", { name: `Developer ID ${PROFILE.name}` });
   await card.focus();
   await page.keyboard.press("Enter");
   await expect(card).toHaveAttribute("aria-pressed", "true");
@@ -74,4 +74,43 @@ test("links that open a new tab are safe and point at https", async ({ page }) =
     await expect(link).toHaveAttribute("rel", /noopener/);
     await expect(link).toHaveAttribute("href", /^https:\/\//);
   }
+});
+
+test.describe("phone number", () => {
+  const digits = PROFILE.phoneHref.replace(/\D/g, "").slice(-7); // the part that gets masked
+
+  test("is not in the page source until asked for", async ({ request }) => {
+    const html = await (await request.get("/")).text();
+    expect(html.replace(/\D/g, "")).not.toContain(digits);
+    expect(html).not.toContain(PROFILE.phone);
+  });
+
+  test("shows masked, then reveals a working tel: link with focus on it", async ({ page }) => {
+    const reveal = page.getByRole("button", { name: "Phone: Show number" });
+    await reveal.scrollIntoViewIfNeeded();
+    await expect(reveal).toContainText("•••-••••");
+    await reveal.click();
+
+    const link = page.getByRole("link", { name: PROFILE.phone });
+    await expect(link).toHaveAttribute("href", PROFILE.phoneHref);
+    await expect(link).toBeFocused();
+  });
+});
+
+test("skills are announced to screen readers on pick, not on hover", async ({ page, isMobile }) => {
+  test.skip(isMobile, "hover");
+  const live = page.locator('.ptable [aria-live="polite"]').last();
+  const tile = page.getByRole("button", { name: "Postman, API Testing" });
+  await tile.scrollIntoViewIfNeeded();
+  await tile.hover();
+  await expect(live).toBeEmpty();
+  await tile.click();
+  await expect(live).toHaveText(/^Postman\. .+ Used at Verizon, 5Y Business Solutions, Helen of Troy\.$/);
+});
+
+test("work section explains how this site is tested", async ({ page }) => {
+  const card = page.getByRole("article", { name: SITE_QA.title });
+  await card.scrollIntoViewIfNeeded();
+  await expect(card).toBeVisible();
+  await expect(card.getByRole("listitem").filter({ hasText: "Playwright E2E" })).toBeVisible();
 });

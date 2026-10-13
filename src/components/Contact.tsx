@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-type Props = { email: string; phone: string; phoneHref: string; resume: string; linkedin: string };
+type Props = { email: string; phoneMasked: string; phoneCode: string; resume: string; linkedin: string };
 
 const HEADLINE: { word: string; accent?: boolean }[] = [
   { word: "Let’s" },
@@ -11,9 +11,21 @@ const HEADLINE: { word: string; accent?: boolean }[] = [
   { word: "together.", accent: true },
 ];
 
-export default function Contact({ email, phone, phoneHref, resume, linkedin }: Props) {
+export default function Contact({ email, phoneMasked, phoneCode, resume, linkedin }: Props) {
   const [copied, setCopied] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const [phone, setPhone] = useState<{ text: string; href: string } | null>(null);
+  const phoneRef = useRef<HTMLAnchorElement>(null);
+
+  // the button disappears once clicked, so hand keyboard focus to the number that replaced it
+  useEffect(() => {
+    if (phone) phoneRef.current?.focus();
+  }, [phone]);
+
+  const revealPhone = () => {
+    const [text, href] = JSON.parse(atob(phoneCode)) as [string, string];
+    setPhone({ text, href });
+  };
 
   const copy = async () => {
     try {
@@ -79,9 +91,17 @@ export default function Contact({ email, phone, phoneHref, resume, linkedin }: P
             <a href={linkedin} className="link-arrow" target="_blank" rel="noopener noreferrer">
               LinkedIn <span aria-hidden="true">↗</span>
             </a>
-            <a href={phoneHref} className="link-arrow">
-              {phone} <span aria-hidden="true">↗</span>
-            </a>
+            {phone ? (
+              <a href={phone.href} className="link-arrow" ref={phoneRef}>
+                {phone.text} <span aria-hidden="true">↗</span>
+              </a>
+            ) : (
+              <button type="button" className="link-arrow phone-reveal" onClick={revealPhone}>
+                <span className="sr-only">Phone: </span>
+                <span aria-hidden="true">{phoneMasked}</span>
+                <span className="phone-show">Show number</span>
+              </button>
+            )}
             <a href={resume} download="Prasad-Rao-Resume.pdf" className="link-arrow">
               Résumé (PDF) <span aria-hidden="true">↓</span>
             </a>

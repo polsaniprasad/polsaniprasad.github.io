@@ -7,9 +7,9 @@ const SLUGS = {
   cypress: "siCypress", selenium: "siSelenium", appium: "siAppium", copilot: "siGithubcopilot",
   mcp: "siModelcontextprotocol", javascript: "siJavascript", typescript: "siTypescript", java: "siOpenjdk",
   python: "siPython", postman: "siPostman", graphql: "siGraphql", bruno: "siBruno", cucumber: "siCucumber", jmeter: "siApachejmeter", newrelic: "siNewrelic",
-  grafana: "siGrafana", jenkins: "siJenkins", githubactions: "siGithubactions", git: "siGit", docker: "siDocker",
-  maven: "siApachemaven", gitlab: "siGitlab", splunk: "siSplunk",
-  kibana: "siKibana", anthropic: "siAnthropic",
+  jenkins: "siJenkins", githubactions: "siGithubactions", git: "siGit", docker: "siDocker",
+  maven: "siApachemaven", splunk: "siSplunk",
+  kibana: "siKibana",
 };
 
 const lines = Object.entries(SLUGS).map(([key, name]) => {

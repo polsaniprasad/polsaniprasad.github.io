@@ -14,6 +14,17 @@ test.describe("header navigation", () => {
     }
   });
 
+  test("marks the section on screen as current", async ({ page, isMobile }) => {
+    test.skip(isMobile, "the desktop nav is always visible");
+    await page.goto("/");
+    const nav = page.getByRole("navigation", { name: "Primary" });
+    await expect(nav.locator("[aria-current]")).toHaveCount(0); // on the hero
+
+    await nav.getByRole("link", { name: "Certifications", exact: true }).click();
+    await expect(nav.getByRole("link", { name: "Certifications", exact: true })).toHaveAttribute("aria-current", "location");
+    await expect(nav.locator("[aria-current]")).toHaveCount(1);
+  });
+
   test("mobile menu opens, closes with Escape, and closes after picking a link", async ({ page, isMobile }) => {
     test.skip(!isMobile, "the menu button only shows on small screens");
     await page.goto("/");

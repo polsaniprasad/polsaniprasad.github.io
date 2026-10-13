@@ -154,7 +154,8 @@ export default function Lanyard(props: Props) {
             className="idcard"
             data-flipped={flipped}
             aria-pressed={flipped}
-            aria-label={`Developer ID card for ${props.name}. Press to flip.`}
+            aria-labelledby="idcard-kicker idcard-name"
+            aria-describedby="idcard-hint"
             onPointerDown={(e) => (pointerType.current = e.pointerType)}
             onClick={() => {
               // mouse users flip on hover; touch and pen flip on tap
@@ -167,19 +168,26 @@ export default function Lanyard(props: Props) {
               }
             }}
           >
+            <span className="sr-only" id="idcard-hint">
+              Press to flip the card and see education, certifications and figures.
+            </span>
             <div className="idcard-face idcard-front">
               <span className="idcard-slot" aria-hidden="true" />
               <div className="idcard-top">
                 <span className="idcard-mark" aria-hidden="true">
                   PR
                 </span>
-                <span className="idcard-kicker">Developer ID</span>
+                <span className="idcard-kicker" id="idcard-kicker">
+                  Developer ID
+                </span>
               </div>
               <div className="idcard-photo">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={asset("/media/portrait-bust.webp")} alt={`Portrait of ${props.name}`} width={480} height={576} loading="lazy" />
               </div>
-              <p className="idcard-name">{props.name}</p>
+              <p className="idcard-name" id="idcard-name">
+                {props.name}
+              </p>
               <p className="idcard-role">{props.role}</p>
               <dl className="idcard-fields">
                 <div>

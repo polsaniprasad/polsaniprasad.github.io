@@ -33,7 +33,7 @@ test("sound button plays the intro with captions, then pauses", async ({ page })
 
   await button.click();
   await expect(button).toHaveAttribute("aria-pressed", "true");
-  await expect(button).toHaveAccessibleName("Pause intro");
+  await expect(button).toHaveAccessibleName("Pause (intro video)");
   expect(await video.evaluate((v: HTMLVideoElement) => v.muted)).toBe(false);
   await expect(page.locator(".hero-caption")).toHaveText("Hi, I’m Prasad Rao.");
 

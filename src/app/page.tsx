@@ -14,6 +14,12 @@ import Footer from "@/components/Footer";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
+// The phone number never appears in the HTML as text: the page gets a masked copy to show and
+// an encoded copy that is only decoded when a visitor asks for it. That keeps it away from
+// scrapers that grep page source for numbers (it is still on the résumé PDF).
+const phoneMasked = PROFILE.phone.replace(/\d(?=(?:\D*\d){0,6}\D*$)/g, "•");
+const phoneCode = Buffer.from(JSON.stringify([PROFILE.phone, PROFILE.phoneHref])).toString("base64");
+
 // schema.org Person: lets search engines show the name, title and LinkedIn together.
 const personJsonLd = {
   "@context": "https://schema.org",
@@ -52,8 +58,8 @@ export default function Home() {
         <Achievements items={ACHIEVEMENTS} />
         <Contact
           email={PROFILE.email}
-          phone={PROFILE.phone}
-          phoneHref={PROFILE.phoneHref}
+          phoneMasked={phoneMasked}
+          phoneCode={phoneCode}
           resume={PROFILE.resume}
           linkedin={PROFILE.linkedin}
         />

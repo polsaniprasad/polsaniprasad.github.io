@@ -7,6 +7,7 @@ type Props = { name: string; nav: readonly { id: string; label: string }[] };
 export default function Header({ name, nav }: Props) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [current, setCurrent] = useState<string | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -14,6 +15,22 @@ export default function Header({ name, nav }: Props) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // The current section is whichever one crosses a line 40% down the viewport.
+  useEffect(() => {
+    const sections = nav
+      .map((item) => document.getElementById(item.id))
+      .filter((el): el is HTMLElement => el !== null);
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) if (entry.isIntersecting) setCurrent(entry.target.id);
+        if (window.scrollY < window.innerHeight * 0.5) setCurrent(null); // still on the hero
+      },
+      { rootMargin: "-40% 0px -60% 0px" },
+    );
+    sections.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [nav]);
 
   useEffect(() => {
     if (!open) return;
@@ -35,7 +52,11 @@ export default function Header({ name, nav }: Props) {
           <ul>
             {nav.map((item) => (
               <li key={item.id}>
-                <a href={`#${item.id}`} onClick={() => setOpen(false)}>
+                <a
+                  href={`#${item.id}`}
+                  aria-current={current === item.id ? "location" : undefined}
+                  onClick={() => setOpen(false)}
+                >
                   {item.label}
                 </a>
               </li>

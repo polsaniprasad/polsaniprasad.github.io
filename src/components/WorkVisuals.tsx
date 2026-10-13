@@ -161,6 +161,46 @@ function Commerce() {
   );
 }
 
+/** This site's own CI pipeline; shown beside the "tested like production" note. */
+export function Suite() {
+  const steps = [
+    ["lint · types", "14s"],
+    ["build static", "38s"],
+    ["e2e · desktop chrome", "41s"],
+    ["e2e · android", "37s"],
+    ["e2e · iphone", "44s"],
+    ["axe · WCAG 2.1 AA", "9s"],
+    ["lighthouse", "52s"],
+    ["deploy → pages", "6s"],
+  ];
+  const scores = [
+    ["95", "Perf"],
+    ["100", "A11y"],
+    ["100", "Best pr."],
+    ["100", "SEO"],
+  ];
+  return (
+    <Frame title="ci.yml · main">
+      <p className="vis-k">Pipeline</p>
+      {steps.map(([name, time], i) => (
+        <div className="va-row vs-step" key={name} style={{ "--i": i } as React.CSSProperties}>
+          <span className="va-dot va-pass" />
+          <span>{name}</span>
+          <span className="vs-time">{time}</span>
+        </div>
+      ))}
+      <div className="vs-scores">
+        {scores.map(([n, k]) => (
+          <div key={k}>
+            <p className="vs-num">{n}</p>
+            <p className="vis-k">{k}</p>
+          </div>
+        ))}
+      </div>
+    </Frame>
+  );
+}
+
 export default function WorkVisual({ kind }: { kind: Project["ui"] }) {
   if (kind === "agents") return <Agents />;
   if (kind === "player") return <Player />;
