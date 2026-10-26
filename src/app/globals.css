@@ -122,6 +122,10 @@ em {
   padding-block: var(--pad-y);
   scroll-margin-top: 0;
 }
+/* Sections share one background, so stacked bottom + top padding read as a double gap */
+.section:has(+ .section) {
+  padding-bottom: 0;
+}
 
 /* Scroll reveal (only once JS has confirmed it can un-hide things) */
 html.js [data-reveal] {
@@ -795,7 +799,7 @@ html.js [data-reveal].is-in {
   --cw: clamp(256px, 74vw, 300px);
   --strap: 200px;
   position: relative;
-  height: calc(var(--strap) + var(--cw) * 1.56 + 56px);
+  height: calc(var(--strap) + var(--cw) * 1.56 + 36px);
   margin-top: -48px;
   perspective: 1400px;
   display: flex;
